@@ -1,6 +1,10 @@
 $(document).ready(function(){
 	console.log("I'm alive!!!");
 
+	$("#panorama-view").resizable({
+		handles: "n, e, s, w, ne, se, sw, nw"
+	});
+
 	chrome.windows.getAll(function(windows){
 
 		//Get only normal windows
