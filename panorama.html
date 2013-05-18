@@ -39,7 +39,9 @@
 
 		<div id="w_tpl" style="display: none;">
 			<div class='window'>
-				<% print(w_info.window); %>
+				<% _.each(w_info.window, function(v, k){
+					print(k + ": " + v + "<br>");
+				}); %>
 				<br>
 				<% _.each(w_info.tabs, function(tab){ %>
 					<div class='tab'>
