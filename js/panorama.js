@@ -1,6 +1,4 @@
 $(document).ready(function(){
-	console.log("I'm alive!!!");
-
 	$("#panorama-view").resizable({
 		handles: "n, e, s, w, ne, se, sw, nw"
 	});
@@ -10,14 +8,35 @@ $(document).ready(function(){
 	});
 
 	showTabs();
-
 });
+
+var w_tpl = "" +
+"<div style='border: 1px solid black;'>" +
+
+"	<% _.each(tabs, function(tab){ %>" +
+
+"		<div style='border: 1px solid blue';>" +
+"			<%= tab.title %>" +
+"		</div>" +
+
+"	<% }); %>" +
+
+"</div>";
 
 function showTabs(){
 
 	chrome.storage.local.get("tabs", function(data){
-		console.log(data);
-		$('#panorama-view').text(JSON.stringify(data));
+
+		_.each(data, function(w){
+
+			$('#panorama-view').append(
+				_.template(w_tpl, {
+					tabs: _.first(w)
+				})
+			);
+
+		});
+
 	});
 
 }
