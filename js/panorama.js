@@ -11,11 +11,11 @@ $(document).ready(function(){
 });
 
 var w_tpl = "" +
-"<div style='border: 1px solid black;'>" +
+"<div class='w'>" +
 
 "	<% _.each(tabs, function(tab){ %>" +
 
-"		<div style='border: 1px solid blue';>" +
+"		<div class='tab';>" +
 "			<%= tab.title %>" +
 "		</div>" +
 
@@ -26,6 +26,8 @@ var w_tpl = "" +
 function showTabs(){
 
 	chrome.storage.local.get("tabs", function(data){
+
+		$('.w').remove();
 
 		_.each(data, function(w){
 
