@@ -1,12 +1,18 @@
+/*
+TODO
+
+* listen when each tab is activated and capture it (thumb)
+* listen for events for new windows/tabs
+* listen for events for closed windows/tabs
+* listen for runtime.onSuspend
+
+*/
+
 chrome.browserAction.onClicked.addListener(function(tab){
 	chrome.tabs.create({
 		url: chrome.extension.getURL("panorama.html")
 	});    
 });
-
-//listen for events for new windows/tabs
-//listen for events for closed windows/tabs
-//listen for runtime.onSuspend
 
 chrome.alarms.create("auto-save", {
 	when: 1,
@@ -57,7 +63,7 @@ function saveCurrentTabs(){
 
 	chrome.windows.getAll(function(windows){
 
-		chrome.storage.local.get("tabs", function(data){
+		chrome.storage.local.get("panorama", function(data){
 
 			//Get already saved data or create new data structure
 			if(_.isEmpty(data)){
@@ -122,7 +128,7 @@ function saveCurrentTabs(){
 
 					if(n_windows == n_saved_windows){
 						chrome.storage.local.set({
-							'tabs': data
+							'panorama': data
 						});
 					}
 
