@@ -15,9 +15,9 @@ var w_tpl = "" +
 
 "	<% _.each(tabs, function(tab){ %>" +
 
-"		<div class='tab';>" +
+"		<div class='tab'>" +
 "			<%= tab.title %>" +
-"		</div>" +
+"		</div><br>" +
 
 "	<% }); %>" +
 

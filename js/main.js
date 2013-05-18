@@ -57,7 +57,8 @@ function saveCurrentTabs(){
 
 				data.push(wdata);
 
-				console.log(data);
+				//console.log(data);
+				console.log("Windiw ID", w.id);
 				chrome.storage.local.set({
 					'tabs': data
 				});
