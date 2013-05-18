@@ -14,7 +14,7 @@ function showTabs(){
 
 	chrome.storage.local.get("tabs", function(data){
 
-		$('.w').remove();
+		$('#panorama-view :not(.ui-resizable-handle)').remove();
 
 		_.each(data, function(w){
 
