@@ -54,12 +54,12 @@ chrome.alarms.onAlarm.addListener(function(alarm){
 */
 
 function saveCurrentTabs(){
-	console.log("save current tabs!");
 
 	chrome.windows.getAll(function(windows){
 
 		chrome.storage.local.get("tabs", function(data){
 
+			//Get already saved data or create new data structure
 			if(_.isEmpty(data)){
 				data = [];
 			}else{
@@ -73,6 +73,9 @@ function saveCurrentTabs(){
 				return w.type == "normal";
 			});
 
+			var n_windows = _.size(windows);
+			var n_saved_windows = 0;
+
 			//Get tabs of each window
 			_.each(windows, function(w){
 
@@ -81,23 +84,27 @@ function saveCurrentTabs(){
 				wdata.window = {};
 				wdata.tabs = [];
 
-				wdata.window.real = true; //hack (see commets)
+				//Save window information
+				wdata.window.real = true; //hack (see comments)
 				wdata.window.left = w.left;
 				wdata.window.top = w.top;
 				wdata.window.width = w.width;
 				wdata.window.height = w.height;
 				wdata.window.incognito = w.incognito;
 
+				//Query all tabs in this window
 				chrome.tabs.query({
 					windowId: w.id
 				}, function(tabs){
 
 					_.each(tabs, function(tab){
 
+						//Exclude the tab of this plugin
 						if(tab.url == chrome.extension.getURL("panorama.html")){
 							return;
 						}
 
+						//Save tab information
 						var tabdata = {};
 						tabdata.pinned = tab.pinned;
 						tabdata.active = tab.active;
@@ -111,11 +118,13 @@ function saveCurrentTabs(){
 
 					data.push(wdata);
 
-					//console.log(data);
-					console.log("Windiw ID", w.id);
-					chrome.storage.local.set({
-						'tabs': data
-					});
+					if(n_windows == n_saved_windows){
+						chrome.storage.local.set({
+							'tabs': data
+						});
+					}else{
+						n_saved_windows++;
+					}
 
 				});
 
