@@ -10,11 +10,17 @@
 	},
 
 	"background": {
-		"scripts": ["js/main.js"],
+		"scripts": [
+			"js/underscore-min.js",
+			"js/main.js"
+		],
 		"persistent": false
 	},
 
 	"permissions": [
-	"tabs", "background"
+		"alarms",
+		"background",
+		"storage",
+		"tabs"
 	]
 }
