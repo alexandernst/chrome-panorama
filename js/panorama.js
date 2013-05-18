@@ -1,8 +1,4 @@
 $(document).ready(function(){
-	$("#panorama-view").resizable({
-		handles: "n, e, s, w, ne, se, sw, nw"
-	});
-
 	chrome.storage.onChanged.addListener(function(changes, namespace){
 		showTabs();
 	});
@@ -12,15 +8,13 @@ $(document).ready(function(){
 
 function showTabs(){
 
-	chrome.storage.local.get("tabs", function(data){
+	chrome.storage.local.get("panorama", function(data){
 
 		$('#panorama-view :not(.ui-resizable-handle)').remove();
 
-		_.each(data, function(w){
+		data = data.panorama;
 
-			if(_.isArray(w) && _.size(w) == 1){	//for some reason we
-				w = _.first(w);					//get an array for data
-			}									//instead of data itself
+		_.each(data, function(w){
 
 			$('#panorama-view').append(
 				_.template( _.unescape( $('#w_tpl').html() ), {
