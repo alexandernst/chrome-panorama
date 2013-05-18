@@ -5,29 +5,19 @@ $(document).ready(function(){
 		handles: "n, e, s, w, ne, se, sw, nw"
 	});
 
-	chrome.windows.getAll(function(windows){
-
-		//Get only normal windows
-		windows = _.filter(windows, function(w){
-			return w.type == "normal";
-		});
-
-		console.log(windows);
-
-		//Get tabs of each window
-		_.each(windows, function(w){
-
-			chrome.tabs.query({
-				windowId: w.id
-			}, function(tabs){
-
-				_.each(tabs, function(tab){
-					console.log(tab.url);
-				});
-
-			});
-		});
-
+	chrome.storage.onChanged.addListener(function(changes, namespace){
+		showTabs();
 	});
 
+	showTabs();
+
 });
+
+function showTabs(){
+
+	chrome.storage.local.get("tabs", function(data){
+		console.log(data);
+		$('#panorama-view').text(JSON.stringify(data));
+	});
+
+}
