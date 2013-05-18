@@ -24,7 +24,7 @@ function showTabs(){
 
 			$('#panorama-view').append(
 				_.template( _.unescape( $('#w_tpl').html() ), {
-					tabs: w.tabs
+					w_info: w
 				})
 			);
 

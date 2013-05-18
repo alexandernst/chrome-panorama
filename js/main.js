@@ -118,12 +118,12 @@ function saveCurrentTabs(){
 
 					data.push(wdata);
 
+					n_saved_windows++;
+
 					if(n_windows == n_saved_windows){
 						chrome.storage.local.set({
 							'tabs': data
 						});
-					}else{
-						n_saved_windows++;
 					}
 
 				});
