@@ -10,19 +10,6 @@ $(document).ready(function(){
 	showTabs();
 });
 
-var w_tpl = "" +
-"<div class='w'>" +
-
-"	<% _.each(tabs, function(tab){ %>" +
-
-"		<div class='tab'>" +
-"			<%= tab.title %>" +
-"		</div><br>" +
-
-"	<% }); %>" +
-
-"</div>";
-
 function showTabs(){
 
 	chrome.storage.local.get("tabs", function(data){
@@ -31,9 +18,13 @@ function showTabs(){
 
 		_.each(data, function(w){
 
+			if(_.isArray(w) && _.size(w) == 1){	//for some reason we
+				w = _.first(w);					//get an array for data
+			}									//instead of data itself
+
 			$('#panorama-view').append(
-				_.template(w_tpl, {
-					tabs: _.first(w)
+				_.template( _.unescape( $('#w_tpl').html() ), {
+					tabs: w.tabs
 				})
 			);
 
