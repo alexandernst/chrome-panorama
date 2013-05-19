@@ -22,7 +22,9 @@ function showTabs(){
 				})
 			);
 
-			$(_.last($('#windows-view .window'))).find('.badge').tooltip({
+			var current_w = $(_.last($('#windows-view .window')));
+
+			current_w.find('.badge').tooltip({
 				title: function(){
 					var w_info = "";
 					_.each(w.window, function(v, k){
