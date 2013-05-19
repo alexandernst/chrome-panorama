@@ -22,6 +22,17 @@ function showTabs(){
 				})
 			);
 
+			$(_.last($('#windows-view .window'))).find('.badge').tooltip({
+				title: function(){
+					var w_info = "";
+					_.each(w.window, function(v, k){
+						w_info += k + ": " + v + "<br>";
+					});
+					return w_info;
+				},
+				html: true,
+				placement: "bottom"
+			});
 
 		});
 
