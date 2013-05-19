@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Panorama for Chrome</title>
@@ -13,45 +13,57 @@
 				overflow: hidden;
 			}
 			.window {
+				margin: 20px 20px 0px 0px;
 				padding: 10px 10px 10px 10px;
 				border: 1px solid black;
 				background-color: gray;
 				float: left;
-				clear: left;
 			}
-
+			.tabs {
+				margin: 0px 0px 0px 0px !important;
+				width: 600px;
+			}
 			.tab {
-				border: 1px solid blue;
+				margin: 20px 20px 0px 0px;
 				float: left;
-				clear: left;
+				width: 90px;
+				height: 90px;
+				overflow: hidden;
 			}
 		</style>
 
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/smoothness/jquery-ui-1.10.3.min.css" />
 
-		<!--<script src="backbone-min.js"></script>-->
 		<script src="js/underscore-min.js"></script>
 		<script src="js/jquery-2.0.0.min.js"></script>
 		<script src="js/jquery-ui-1.10.3.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		<script src="js/panorama.js"></script>
 	</head>
 	<body>
 
 		<div id="w_tpl" style="display: none;">
 			<div class='window'>
+				<button class="close">&times;</button>
 				<% _.each(w_info.window, function(v, k){
-					print(k + ": " + v + "<br>");
+					print(k + ": " + v + " | ");
 				}); %>
 				<br>
-				<% _.each(w_info.tabs, function(tab){ %>
-					<div class='tab'>
-						<%= tab.title %>
-					</div><br>
-				<% }); %>
+				<div class="thumbnails tabs">
+					<% _.each(w_info.tabs, function(tab){ %>
+						<div class="thumbnail tab">
+							<%= tab.title %>
+						</div>
+					<% }); %>
+				</div>
 			</div>
 		</div>
 
-		<div id="panorama-view" style="border: 1px solid black;">
+		<div id="panorama-view" class="container-fluid">
+			<div id="windows-view" class="container-fluid">
+
+			</div>
 		</div>
 	</body>
 </html>

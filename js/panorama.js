@@ -10,17 +10,21 @@ function showTabs(){
 
 	chrome.storage.local.get("panorama", function(data){
 
-		$('#panorama-view :not(.ui-resizable-handle)').remove();
+		$('#windows-view').empty();
 
 		data = data.panorama;
 
 		_.each(data, function(w){
 
-			$('#panorama-view').append(
+			$('#windows-view').append(
 				_.template( _.unescape( $('#w_tpl').html() ), {
 					w_info: w
 				})
 			);
+
+			_.each($("#windows-view .thumbnails"), function(thumbnails){
+				$(thumbnails).resizable();
+			});
 
 		});
 
