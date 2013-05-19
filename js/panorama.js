@@ -22,10 +22,11 @@ function showTabs(){
 				})
 			);
 
-			_.each($("#windows-view .thumbnails"), function(thumbnails){
-				$(thumbnails).resizable();
-			});
 
+		});
+
+		_.each($("#windows-view .thumbnails"), function(thumbnails){
+			$(thumbnails).resizable();
 		});
 
 	});
