@@ -11,8 +11,8 @@
 
 	"background": {
 		"scripts": [
-			"js/underscore-min.js",
-			"js/main.js"
+			"js/libs/underscore-min.js",
+			"js/panorama-core.js"
 		],
 		"persistent": false
 	},
