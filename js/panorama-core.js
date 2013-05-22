@@ -3,7 +3,7 @@ TODO
 
 * listen when each tab is activated and capture it (thumb)
 * listen for events for new windows/tabs
-* listen for events for closed windows/tabs
+* listen for events for closed windows/tabs, but make sure not to trigger if chrome is closing
 * listen for runtime.onSuspend
 
 */

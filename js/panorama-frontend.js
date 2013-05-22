@@ -1,47 +1,85 @@
-$(document).ready(function(){
-	chrome.storage.onChanged.addListener(function(changes, namespace){
-		showTabs();
-	});
+var DataView = Backbone.Marionette.CompositeView.extend({
+	
+	initialize: function(){
+		if(this.model.tabs){
+			this.isWindow = true;
+			this.template = "#window-template";
+		}else{
+			this.isWindow = false;
+			this.template = "#tab-template";
+		}
+		this.collection = this.model.tabs;
+	},
+	
+	appendHtml: function(cv, iv){
+		cv.$("#tabs").append(iv.el);
+	},
 
-	showTabs();
-});
+	onRender: function() {
 
-function showTabs(){
+		if(_.isUndefined(this.collection)){
+			this.$("#tabs").remove();
+		}
 
-	chrome.storage.local.get("panorama", function(data){
-
-		$('#windows-view').empty();
-
-		data = data.panorama;
-
-		_.each(data, function(w){
-
-			$('#windows-view').append(
-				_.template( _.unescape( $('#w_tpl').html() ), {
-					w_info: w
-				})
-			);
-
-			var current_w = $(_.last($('#windows-view .window')));
-
-			current_w.find('.badge').tooltip({
+		if(this.isWindow){
+			var w_data = this.model.get("window");
+			this.$el.find('.badge').tooltip({
 				title: function(){
-					var w_info = "";
-					_.each(w.window, function(v, k){
+					var w_info = "<div style='text-align: left;'>";
+					_.each(w_data, function(v, k){
 						w_info += k + ": " + v + "<br>";
 					});
+					w_info += "</div>"
 					return w_info;
 				},
 				html: true,
 				placement: "bottom"
 			});
 
-		});
+			this.$el.find(".window").resizable();
+		}
 
-		_.each($("#windows-view .thumbnails"), function(thumbnails){
-			$(thumbnails).resizable();
-		});
+	}
+});
 
+var PanoramaView = Backbone.Marionette.CollectionView.extend({
+	tagName: "div",
+	itemView: DataView
+});
+
+var DataModel = Backbone.Model.extend({
+	initialize: function(){
+		var tabs = this.get("tabs");
+		if(tabs){
+			this.tabs = new PanoramaCollection(tabs);
+			this.unset("tabs");
+		}
+	}
+});
+
+var PanoramaCollection = Backbone.Collection.extend({
+	model: DataModel
+});
+
+var pnrm_data = new PanoramaCollection();
+var pnrm_view = new PanoramaView({
+	collection: pnrm_data
+});
+
+function renderData(){
+	chrome.storage.local.get("panorama", function(data){
+		data = data.panorama;
+		pnrm_data.reset(data);
 	});
-
 }
+
+$(document).ready(function(){
+	pnrm_view.render();
+	$("#tree").html(pnrm_view.el);
+
+	renderData();
+
+	chrome.storage.onChanged.addListener(function(changes, namespace){
+		renderData();
+	});
+});
