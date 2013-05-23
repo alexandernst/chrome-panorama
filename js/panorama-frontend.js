@@ -21,22 +21,33 @@ var DataView = Backbone.Marionette.CompositeView.extend({
 			this.$("#tabs").remove();
 		}
 
+		//Attach the model to the view so we can get it later
+		this.$el.find(":first").data("backbone-view", this);
+
+		//If current view belongs to a window, then make the view droppable and resizable.
+		//Else make it draggable.
 		if(this.isWindow){
-			var w_data = this.model.get("window");
+			//Set the tooltip information
 			this.$el.find('.badge').tooltip({
-				title: function(){
-					var w_info = "<div style='text-align: left;'>";
-					_.each(w_data, function(v, k){
-						w_info += k + ": " + v + "<br>";
-					});
-					w_info += "</div>"
-					return w_info;
-				},
+				title: this.$el.find("#popup-data").html(),
 				html: true,
 				placement: "bottom"
 			});
 
+			//Make is resizable
 			this.$el.find(".window").resizable();
+
+			//Make it droppable
+			this.$el.find(".window").droppable({
+				drop: function(event, ui){
+					//Get the model from the tab which the user just dropped
+					var model = $(ui.draggable).data("backbone-view").model;
+					console.log(model);
+				}
+			});
+		}else{
+			//Make it draggable
+			this.$el.find(".tab").draggable();
 		}
 
 	}

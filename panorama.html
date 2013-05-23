@@ -18,6 +18,15 @@
 		<script id="window-template" type="text/template">
 			<div class="window">
 				<span class="badge">i</span>
+				<div id="popup-data" style="display: none;">
+					<div style='text-align: left;'>
+					<%
+						_.each(window, function(v, k){
+							print(k + ": " + v + "<br>");
+						});
+					%>
+					</div>
+				</div>
 				<button class="close">&times;</button>
 				<div id="tabs"></div>
 			</div>
