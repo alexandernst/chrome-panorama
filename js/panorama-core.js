@@ -100,7 +100,6 @@ function saveCurrentTabs(){
 				}, function(tabs){
 
 					_.each(tabs, function(tab){
-
 						//Exclude the tab of this plugin
 						if(tab.url == chrome.extension.getURL("panorama.html")){
 							return;
@@ -108,7 +107,6 @@ function saveCurrentTabs(){
 
 						//Save tab information
 						wdata.tabs.push(_.extend({}, tab));
-
 					});
 
 					data.push(wdata);
