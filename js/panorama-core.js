@@ -85,18 +85,14 @@ function saveCurrentTabs(){
 			//Get tabs of each window
 			_.each(windows, function(w){
 
-				var wdata = {};
-
-				wdata.window = {};
-				wdata.tabs = [];
+				var wdata = {
+					window: {}, 
+					tabs: []
+				};
 
 				//Save window information
+				_.extend(wdata.window, w);
 				wdata.window.real = true; //hack (see comments)
-				wdata.window.left = w.left;
-				wdata.window.top = w.top;
-				wdata.window.width = w.width;
-				wdata.window.height = w.height;
-				wdata.window.incognito = w.incognito;
 
 				//Query all tabs in this window
 				chrome.tabs.query({
@@ -111,14 +107,7 @@ function saveCurrentTabs(){
 						}
 
 						//Save tab information
-						var tabdata = {};
-						tabdata.pinned = tab.pinned;
-						tabdata.active = tab.active;
-						tabdata.url = tab.url;
-						tabdata.title = tab.title;
-						tabdata.favIconUrl = tab.favIconUrl;
-						tabdata.incognito = tab.incognito;
-						wdata.tabs.push(tabdata);
+						wdata.tabs.push(_.extend({}, tab));
 
 					});
 
