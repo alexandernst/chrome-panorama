@@ -59,6 +59,8 @@ chrome.alarms.onAlarm.addListener(function(alarm){
 3.		Merge the data from 2. with the data from 1.x and save it.
 */
 
+var pnrm_data = new PanoramaCollection();
+
 function saveCurrentTabs(){
 
 	chrome.windows.getAll(function(windows){
@@ -114,9 +116,16 @@ function saveCurrentTabs(){
 					n_saved_windows++;
 
 					if(n_windows == n_saved_windows){
+
+						//this works, but I'm trying to avoid it
 						chrome.storage.local.set({
 							'panorama': data
 						});
+
+						//this doesn't work, but it's the right way of doing it
+						//pnrm_data.reset(data);
+						//pnrm_data.sync(); //<-- this lineis causing the error I mentioned
+
 					}
 
 				});
