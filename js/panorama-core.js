@@ -72,7 +72,7 @@ function saveCurrentTabs(){
 				data = [];
 			}else{
 				data = _.filter(data, function(w){
-					w.real = false;
+					return w.real = false;
 				});
 			}
 
