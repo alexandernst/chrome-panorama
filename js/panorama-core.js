@@ -59,7 +59,7 @@ chrome.alarms.onAlarm.addListener(function(alarm){
 3.		Merge the data from 2. with the data from 1.x and save it.
 */
 
-var pnrm_data = new PanoramaCollection();
+var pnrm_data = new WindowsCollection();
 
 function saveCurrentTabs(){
 

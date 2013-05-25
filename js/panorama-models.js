@@ -17,7 +17,7 @@ var WindowModel = Backbone.Model.extend({
 	}
 });
 
-var PanoramaCollection = Backbone.Collection.extend({
+var WindowsCollection = Backbone.Collection.extend({
 	chromeStorage: new Backbone.ChromeStorage("panorama", "local"),
 	model: WindowModel
 });
