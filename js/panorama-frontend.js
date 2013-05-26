@@ -1,5 +1,5 @@
 var pnrm_data = new WindowsCollection();
-var pnrm_view = new PanoramaView({
+var pnrm_view = new WindowsCollectionView({
 	collection: pnrm_data
 });
 
