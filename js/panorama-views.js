@@ -36,15 +36,6 @@ var WindowView = Backbone.Marionette.CompositeView.extend({
 		//Attach the model to the view so we can get it later
 		this.$el.find(":first").data("backbone-view", this);
 
-		//If current view belongs to a window, then make the view droppable and resizable.
-		//Else make it draggable.
-		//Set the tooltip information
-		this.$el.find('.badge').tooltip({
-			title: this.$el.find("#popup-data").html(),
-			html: true,
-			placement: "bottom"
-		});
-
 		//Make is resizable
 		this.$el.find(".window").resizable();
 
@@ -52,6 +43,9 @@ var WindowView = Backbone.Marionette.CompositeView.extend({
 		var self = this;
 		this.$el.find(".window").droppable({
 			drop: function(event, ui){
+
+				/*
+
 				//Get the model from the tab which the user just dropped
 				var model = $(ui.draggable).data("backbone-view").model;
 
@@ -77,6 +71,8 @@ var WindowView = Backbone.Marionette.CompositeView.extend({
 				chrome.storage.local.set({
 					'panorama': new_pnrm_data
 				});
+
+				*/
 
 			}
 		});

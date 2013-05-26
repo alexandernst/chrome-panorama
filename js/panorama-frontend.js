@@ -1,32 +1,15 @@
-var pnrm_data = new WindowsCollection();
-var pnrm_view = new WindowsCollectionView({
-	collection: pnrm_data
+var windows_collection = new WindowsCollection();
+var windows_collection_view = new WindowsCollectionView({
+	collection: windows_collection
 });
 
-function renderData(){
-	chrome.storage.local.get("panorama", function(data){
-
-		//this works
-		pnrm_data.reset(data.panorama);  // <--- works fine, but ugly
-
-		//doesn't work, but it's the right way of doing it
-		//pnrm_data.fetch().then(function(collection, response, options){
-		//	console.log(collection); // <-- prints empty array
-		//	console.log("ok");
-		//},function(collection, response, options){
-		//	console.log("ko");
-		//});
-
-	});
-}
-
 $(document).ready(function(){
-	pnrm_view.render();
-	$("#tree").html(pnrm_view.el);
 
-	renderData();
-
-	chrome.storage.onChanged.addListener(function(changes, namespace){
-		renderData();
+	windows_collection.fetch({
+		success: function(collection, response, options){
+			windows_collection_view.render();
+			$("#tree").html(windows_collection_view.el);
+		}
 	});
+
 });

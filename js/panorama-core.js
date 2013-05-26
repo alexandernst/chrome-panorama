@@ -59,78 +59,63 @@ chrome.alarms.onAlarm.addListener(function(alarm){
 3.		Merge the data from 2. with the data from 1.x and save it.
 */
 
-var pnrm_data = new WindowsCollection();
+var windows_collection = new WindowsCollection();
 
 function saveCurrentTabs(){
 
 	chrome.windows.getAll(function(windows){
 
-		chrome.storage.local.get("panorama", function(data){
+		//Get only normal windows
+		windows = _.filter(windows, function(w){
+			return w.type == "normal";
+		});
 
-			//Get already saved data or create new data structure
-			if(_.isEmpty(data)){
-				data = [];
-			}else{
-				data = _.filter(data, function(w){
-					return w.real = false;
+
+		//Get already saved data or create new data structure
+		windows_collection.fetch({
+			success: function(collection, response, options){
+
+				_.each(windows_collection.where({real: true}), function(window_model){
+					window_model.destroy();
 				});
-			}
 
-			//Get only normal windows
-			windows = _.filter(windows, function(w){
-				return w.type == "normal";
-			});
+				//Get tabs of each window
+				_.each(windows, function(w){
 
-			var n_windows = _.size(windows);
-			var n_saved_windows = 0;
+					var window_model = new WindowModel(w);
+					window_model.set("real", true);
 
-			//Get tabs of each window
-			_.each(windows, function(w){
+					var tabs_collection = new TabsCollection();
 
-				var wdata = {
-					window: {}, 
-					tabs: []
-				};
+					//Query all tabs in this window
+					chrome.tabs.query({
+						windowId: w.id
+					}, function(tabs){
 
-				//Save window information
-				_.extend(wdata.window, w);
-				wdata.window.real = true; //hack (see comments)
+						_.each(tabs, function(tab){
+							//Exclude the tab of this plugin
+							if(tab.url == chrome.extension.getURL("panorama.html")){
+								return;
+							}
 
-				//Query all tabs in this window
-				chrome.tabs.query({
-					windowId: w.id
-				}, function(tabs){
+							var tab_model = new TabModel(tab);
+							tabs_collection.push(tab_model);
 
-					_.each(tabs, function(tab){
-						//Exclude the tab of this plugin
-						if(tab.url == chrome.extension.getURL("panorama.html")){
-							return;
-						}
-
-						//Save tab information
-						wdata.tabs.push(_.extend({}, tab));
-					});
-
-					data.push(wdata);
-
-					n_saved_windows++;
-
-					if(n_windows == n_saved_windows){
-
-						//this works, but I'm trying to avoid it
-						chrome.storage.local.set({
-							'panorama': data
 						});
 
-						//this doesn't work, but it's the right way of doing it
-						//pnrm_data.reset(data);
-						//pnrm_data.sync(); //<-- this lineis causing the error I mentioned
+						window_model.set("tabs", tabs_collection);
+						windows_collection.push(window_model);
+						window_model.save();
 
-					}
+					});
 
 				});
 
-			});
+			},
+
+			error: function(collection, response, options){
+				console.log("Something bad happened!", response);
+			}
 
 		});
 
