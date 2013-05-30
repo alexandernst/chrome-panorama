@@ -15,6 +15,5 @@ PanoramaApp.addInitializer(function(options){
 $(document).ready(function(){
 
 	PanoramaApp.start();
-	windows_collection.fetch();
 
 });
