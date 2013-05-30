@@ -1,15 +1,20 @@
+PanoramaApp = new Backbone.Marionette.Application();
+PanoramaApp.addRegions({
+  mainRegion: "#main-content"
+});
+
 var windows_collection = new WindowsCollection();
-var windows_collection_view = new WindowsCollectionView({
-	collection: windows_collection
+
+PanoramaApp.addInitializer(function(options){
+  var windows_collection_view = new WindowsCollectionView({
+    collection: windows_collection
+  });
+  PanoramaApp.mainRegion.show(windows_collection_view);
 });
 
 $(document).ready(function(){
 
-	windows_collection.fetch({
-		success: function(collection, response, options){
-			windows_collection_view.render();
-			$("#tree").html(windows_collection_view.el);
-		}
-	});
+	PanoramaApp.start();
+	windows_collection.fetch();
 
 });
