@@ -86,24 +86,9 @@ var WindowsCollectionView = Backbone.Marionette.CollectionView.extend({
 	itemView: WindowView,
 
 	initialize: function(){
-		_.bindAll(this, "render", "appendHtml", "unrender");
-		this.listenTo(this.collection, "add", this.render);
 		this.listenTo(this.collection, "reset", this.render);
-	},
+		this.listenTo(this.collection, "change", this.render);
 
-	render: function(){
-		this.$el.empty();
-		this.collection.each(this.appendHtml);
-		return this;
-	},
-
-	appendHtml: function(collectionView, windowView, index){
-		this.$el.append(windowView.el);
-		return this;
-	},
-
-	unrender: function(){
-		console.log("Unrender!");
-		this.$el.empty();
+		this.collection.fetch();
 	}
 });
