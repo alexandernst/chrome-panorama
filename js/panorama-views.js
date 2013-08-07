@@ -86,9 +86,16 @@ var WindowsCollectionView = Backbone.Marionette.CollectionView.extend({
 	itemView: WindowView,
 
 	initialize: function(){
-		this.listenTo(this.collection, "reset", this.render);
-		this.listenTo(this.collection, "change", this.render);
+		_.bindAll(this);
 
+		this.listenTo(this.collection, "sync", this.start_monitor);
 		this.collection.fetch();
+	},
+
+	start_monitor: function(){
+		setTimeout(function(self){
+			self.collection.fetch();
+			self.render();
+		}, 5000, this);
 	}
 });
